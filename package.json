@@ -1,0 +1,28 @@
+{
+  "name": "job-search-analytics-platform",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "docker:up": "docker compose up -d",
+    "docker:init": "echo '[DOCKER] Starting containers...' && npm run docker:up",
+    "docker:down": "docker compose down",
+
+    "backend": "cd backend && mvn spring-boot:run",
+    "frontend": "cd frontend && ng serve",
+
+    "start": "concurrently -k -n BACKEND,FRONTEND \"npm run backend\" \"wait-on http://localhost:8080/api/health && npm run frontend\"",
+
+    "dev": "npm run docker:init && npm run start",
+
+    "clean": "docker compose down -v"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "concurrently": "^10.0.3",
+    "wait-on": "^9.0.10"
+  }
+}
