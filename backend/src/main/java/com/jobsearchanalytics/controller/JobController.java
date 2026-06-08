@@ -1,7 +1,7 @@
-package com.jobanalytics.controller;
+package com.jobsearchanalytics.controller;
 
-import com.jobanalytics.model.JobApplication;
-import com.jobanalytics.service.JobService;
+import com.jobsearchanalytics.model.JobApplication;
+import com.jobsearchanalytics.service.JobService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

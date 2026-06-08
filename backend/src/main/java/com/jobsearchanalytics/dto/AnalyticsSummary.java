@@ -1,4 +1,4 @@
-package com.jobanalytics.dto;
+package com.jobsearchanalytics.dto;
 
 public class AnalyticsSummary {
 

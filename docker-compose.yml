@@ -2,10 +2,10 @@ services:
 
   postgres:
     image: postgres:17
-    container_name: jobanalytics-postgres
+    container_name: jobsearchanalytics-postgres
 
     environment:
-      POSTGRES_DB: jobanalytics
+      POSTGRES_DB: jobsearchanalytics
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin123
 

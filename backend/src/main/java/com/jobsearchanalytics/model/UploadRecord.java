@@ -1,4 +1,4 @@
-package com.jobanalytics.model;
+package com.jobsearchanalytics.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;

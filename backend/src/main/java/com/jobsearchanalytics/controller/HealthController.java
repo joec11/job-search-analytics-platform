@@ -1,6 +1,6 @@
-package com.jobanalytics.controller;
+package com.jobsearchanalytics.controller;
 
-import com.jobanalytics.dto.HealthResponse;
+import com.jobsearchanalytics.dto.HealthResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

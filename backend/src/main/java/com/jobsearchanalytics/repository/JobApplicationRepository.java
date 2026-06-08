@@ -1,6 +1,6 @@
-package com.jobanalytics.repository;
+package com.jobsearchanalytics.repository;
 
-import com.jobanalytics.model.JobApplication;
+import com.jobsearchanalytics.model.JobApplication;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

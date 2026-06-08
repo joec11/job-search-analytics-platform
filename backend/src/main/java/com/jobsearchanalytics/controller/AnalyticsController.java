@@ -1,6 +1,6 @@
-package com.jobanalytics.controller;
+package com.jobsearchanalytics.controller;
 
-import com.jobanalytics.dto.AnalyticsSummary;
+import com.jobsearchanalytics.dto.AnalyticsSummary;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

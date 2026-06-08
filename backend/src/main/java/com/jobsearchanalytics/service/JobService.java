@@ -1,7 +1,7 @@
-package com.jobanalytics.service;
+package com.jobsearchanalytics.service;
 
-import com.jobanalytics.model.JobApplication;
-import com.jobanalytics.repository.JobApplicationRepository;
+import com.jobsearchanalytics.model.JobApplication;
+import com.jobsearchanalytics.repository.JobApplicationRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.jobanalytics.config;
+package com.jobsearchanalytics.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
