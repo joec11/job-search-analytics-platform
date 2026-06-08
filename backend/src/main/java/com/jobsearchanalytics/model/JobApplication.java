@@ -1,88 +1,59 @@
 package com.jobsearchanalytics.model;
 
 import jakarta.persistence.*;
-import java.math.BigDecimal;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.time.LocalDate;
-import java.util.UUID;
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "job_applications")
+@Getter
+@Setter
 public class JobApplication {
 
     @Id
-    @GeneratedValue
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private String title;
-    private String company;
+    private String jobTitle;
+    private String companyName;
     private String location;
-    private String source;
+
+    @Enumerated(EnumType.STRING)
+    private WorkType workType;
+
+    @Enumerated(EnumType.STRING)
+    private EmploymentType employmentType;
+
+    private String salaryRange;
+
+    @Enumerated(EnumType.STRING)
+    private JobSource source;
+
+    @Enumerated(EnumType.STRING)
+    private ApplicationStatus status;
 
     private LocalDate dateApplied;
+    private LocalDate statusDate;
 
-    private BigDecimal salaryMin;
-    private BigDecimal salaryMax;
+    private String jobUrl;
 
-    public UUID getId() {
-        return id;
-    }
+    @Column(length = 2000)
+    private String notes;
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
+    // analytics fields
+    private String recruiterName;
+    private String recruiterEmail;
+    private Boolean referral;
+    private String industry;
 
-    public String getTitle() {
-        return title;
-    }
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public LocalDate getDateApplied() {
-        return dateApplied;
-    }
-
-    public void setDateApplied(LocalDate dateApplied) {
-        this.dateApplied = dateApplied;
-    }
-
-    public BigDecimal getSalaryMin() {
-        return salaryMin;
-    }
-
-    public void setSalaryMin(BigDecimal salaryMin) {
-        this.salaryMin = salaryMin;
-    }
-
-    public BigDecimal getSalaryMax() {
-        return salaryMax;
-    }
-
-    public void setSalaryMax(BigDecimal salaryMax) {
-        this.salaryMax = salaryMax;
-    }
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 }
