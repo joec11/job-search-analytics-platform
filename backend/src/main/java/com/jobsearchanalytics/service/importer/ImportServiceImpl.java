@@ -1,11 +1,16 @@
 package com.jobsearchanalytics.service.importer;
 
+import com.jobsearchanalytics.dto.response.ImportError;
 import com.jobsearchanalytics.dto.response.ImportSummary;
+import com.jobsearchanalytics.model.JobApplication;
+import com.jobsearchanalytics.repository.JobApplicationRepository;
 import com.jobsearchanalytics.util.ExcelParser;
+import com.jobsearchanalytics.util.JobApplicationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,24 +19,76 @@ import java.util.Map;
 public class ImportServiceImpl implements ImportService {
 
     private final ExcelParser excelParser;
+    private final JobApplicationRepository repository;
 
     @Override
     public ImportSummary importFile(MultipartFile file) {
 
-        // 1. Parse Excel → List of rows
         List<Map<String, String>> rows = excelParser.parse(file);
 
-        int totalRows = rows.size();
+        List<JobApplication> validApplications = new ArrayList<>();
+        List<ImportError> errors = new ArrayList<>();
 
-        // 2. For now: no validation, no DB insert yet
-        int successfulRows = totalRows;
-        int failedRows = 0;
+        int rowNumber = 1;
+
+        for (Map<String, String> row : rows) {
+
+            try {
+                JobApplication job = JobApplicationMapper.fromRow(row);
+
+                // -------------------------
+                // REQUIRED FIELD VALIDATION
+                // -------------------------
+
+                if (job.getJobTitle() == null || job.getJobTitle().isBlank()) {
+                    errors.add(new ImportError(rowNumber, "jobTitle is required"));
+                    rowNumber++;
+                    continue;
+                }
+
+                if (job.getCompanyName() == null || job.getCompanyName().isBlank()) {
+                    errors.add(new ImportError(rowNumber, "companyName is required"));
+                    rowNumber++;
+                    continue;
+                }
+
+                if (job.getSource() == null) {
+                    errors.add(new ImportError(
+                            rowNumber,
+                            "source is required (LINKEDIN, INDEED, ZIPRECRUITER, etc.)"
+                    ));
+                    rowNumber++;
+                    continue;
+                }
+
+                if (job.getStatus() == null) {
+                    errors.add(new ImportError(
+                            rowNumber,
+                            "status is required (APPLIED, SCREENING, INTERVIEW, OFFER, REJECTED, WITHDRAWN)"
+                    ));
+                    rowNumber++;
+                    continue;
+                }
+
+                validApplications.add(job);
+
+            } catch (Exception e) {
+                errors.add(new ImportError(
+                        rowNumber,
+                        "Unexpected error: " + e.getMessage()
+                ));
+            }
+
+            rowNumber++;
+        }
+
+        repository.saveAll(validApplications);
 
         return new ImportSummary(
-                totalRows,
-                successfulRows,
-                failedRows,
-                List.of()
+                rows.size(),
+                validApplications.size(),
+                errors.size(),
+                errors
         );
     }
 }
