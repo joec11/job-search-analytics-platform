@@ -23,18 +23,29 @@ public class ExcelParser {
                 return Collections.emptyList();
             }
 
-            // Header row
+            // -----------------------------
+            // HEADER ROW
+            // -----------------------------
             Row headerRow = rowIterator.next();
             List<String> headers = new ArrayList<>();
 
             for (Cell cell : headerRow) {
-                headers.add(cell.getStringCellValue().trim());
+                String rawHeader = getCellString(cell).trim();
+                String normalizedHeader = ColumnMapper.map(rawHeader);
+                headers.add(normalizedHeader);
             }
 
             List<Map<String, String>> rows = new ArrayList<>();
 
+            // -----------------------------
+            // DATA ROWS
+            // -----------------------------
             while (rowIterator.hasNext()) {
+
                 Row row = rowIterator.next();
+
+                // skip completely empty rows
+                if (isRowEmpty(row)) continue;
 
                 Map<String, String> rowMap = new HashMap<>();
 
@@ -42,14 +53,9 @@ public class ExcelParser {
 
                     Cell cell = row.getCell(i, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
 
-                    String value = switch (cell.getCellType()) {
-                        case STRING -> cell.getStringCellValue();
-                        case NUMERIC -> String.valueOf(cell.getNumericCellValue());
-                        case BOOLEAN -> String.valueOf(cell.getBooleanCellValue());
-                        default -> "";
-                    };
+                    String value = normalizeValue(getCellString(cell));
 
-                    rowMap.put(headers.get(i), value.trim());
+                    rowMap.put(headers.get(i), value);
                 }
 
                 rows.add(rowMap);
@@ -60,5 +66,69 @@ public class ExcelParser {
         } catch (Exception e) {
             throw new RuntimeException("Failed to parse Excel file: " + e.getMessage(), e);
         }
+    }
+
+    // -----------------------------
+    // SAFE CELL READER
+    // -----------------------------
+    private String getCellString(Cell cell) {
+        if (cell == null) return "";
+
+        return switch (cell.getCellType()) {
+            case STRING -> cell.getStringCellValue();
+
+            case NUMERIC -> {
+                if (DateUtil.isCellDateFormatted(cell)) {
+                    yield cell.getLocalDateTimeCellValue()
+                        .toLocalDate()
+                        .toString();
+                }
+                
+                double value = cell.getNumericCellValue();
+                
+                if (value == (long) value) {
+                    yield String.valueOf((long) value);
+                }
+                
+                yield String.valueOf(value);
+            }
+
+            case BOOLEAN -> String.valueOf(cell.getBooleanCellValue());
+            case FORMULA -> cell.getCellFormula();
+            default -> "";
+        };
+    }
+
+    // -----------------------------
+    // VALUE NORMALIZATION
+    // -----------------------------
+    private String normalizeValue(String value) {
+
+        if (value == null) return null;
+
+        String v = value.trim();
+
+        if (v.isEmpty()) return null;
+        if (v.equals("--")) return null;
+
+        return v;
+    }
+
+    // -----------------------------
+    // EMPTY ROW CHECK
+    // -----------------------------
+    private boolean isRowEmpty(Row row) {
+
+        if (row == null) return true;
+
+        for (Cell cell : row) {
+            if (cell != null && cell.getCellType() != CellType.BLANK) {
+                if (!getCellString(cell).trim().isEmpty()) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

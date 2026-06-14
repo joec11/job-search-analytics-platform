@@ -52,24 +52,6 @@ public class ImportServiceImpl implements ImportService {
                     continue;
                 }
 
-                if (job.getSource() == null) {
-                    errors.add(new ImportError(
-                            rowNumber,
-                            "source is required (LINKEDIN, INDEED, ZIPRECRUITER, etc.)"
-                    ));
-                    rowNumber++;
-                    continue;
-                }
-
-                if (job.getStatus() == null) {
-                    errors.add(new ImportError(
-                            rowNumber,
-                            "status is required (APPLIED, SCREENING, INTERVIEW, OFFER, REJECTED, WITHDRAWN)"
-                    ));
-                    rowNumber++;
-                    continue;
-                }
-
                 validApplications.add(job);
 
             } catch (Exception e) {

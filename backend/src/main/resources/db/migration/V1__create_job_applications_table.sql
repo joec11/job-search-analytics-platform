@@ -9,13 +9,13 @@ CREATE TABLE job_applications (
 
     salary_range VARCHAR(100),
 
-    source VARCHAR(50) NOT NULL,
-    status VARCHAR(50) NOT NULL,
+    source VARCHAR(50),
+    status VARCHAR(50),
 
     date_applied DATE,
     status_date DATE,
 
-    job_url VARCHAR(2000),
+    job_url TEXT,
     notes VARCHAR(2000),
 
     recruiter_name VARCHAR(255),

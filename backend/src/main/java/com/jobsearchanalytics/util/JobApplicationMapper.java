@@ -1,10 +1,18 @@
 package com.jobsearchanalytics.util;
 
-import com.jobsearchanalytics.model.*;
+import com.jobsearchanalytics.model.JobApplication;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 public class JobApplicationMapper {
+
+    private static final DateTimeFormatter ISO_FORMAT =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    private static final DateTimeFormatter US_FORMAT =
+            DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
     public static JobApplication fromRow(Map<String, String> row) {
 
@@ -14,40 +22,66 @@ public class JobApplicationMapper {
         job.setCompanyName(row.get("companyName"));
         job.setLocation(row.get("location"));
 
-        job.setWorkType(parseEnum(WorkType.class, row.get("workType")));
-        job.setEmploymentType(parseEnum(EmploymentType.class, row.get("employmentType")));
-        job.setSource(parseEnum(JobSource.class, row.get("source")));
-        job.setStatus(parseEnum(ApplicationStatus.class, row.get("status")));
+        job.setEmploymentType(
+                ValueMapper.mapEmploymentType(
+                        row.get("employmentType")
+                )
+        );
+
+        job.setWorkType(
+                ValueMapper.mapWorkType(
+                        row.get("workType")
+                )
+        );
 
         job.setSalaryRange(row.get("salaryRange"));
         job.setJobUrl(row.get("jobUrl"));
-        job.setNotes(row.get("notes"));
 
-        job.setRecruiterName(row.get("recruiterName"));
-        job.setRecruiterEmail(row.get("recruiterEmail"));
-        job.setReferral(parseBoolean(row.get("referral")));
-        job.setIndustry(row.get("industry"));
+        job.setStatus(
+                ValueMapper.mapStatus(
+                        row.get("status")
+                )
+        );
+
+        job.setSource(
+                ValueMapper.mapSource(
+                        row.get("source")
+                )
+        );
+
+        job.setDateApplied(
+                parseDate(
+                        row.get("dateApplied")
+                )
+        );
+
+        job.setStatusDate(
+                parseDate(
+                        row.get("statusDate")
+                )
+        );
 
         return job;
     }
 
-    private static <T extends Enum<T>> T parseEnum(Class<T> enumClass, String value) {
+    private static LocalDate parseDate(String value) {
+
         if (value == null || value.isBlank()) {
             return null;
         }
 
-        try {
-            return Enum.valueOf(
-                    enumClass,
-                    value.trim().toUpperCase().replace("-", "_").replace(" ", "_")
-            );
-        } catch (Exception e) {
-            return null; // will be caught in service validation
-        }
-    }
+        String date = value.trim();
 
-    private static Boolean parseBoolean(String value) {
-        if (value == null) return false;
-        return value.equalsIgnoreCase("true") || value.equalsIgnoreCase("yes");
+        try {
+            return LocalDate.parse(date, ISO_FORMAT);
+        } catch (Exception ignored) {
+        }
+
+        try {
+            return LocalDate.parse(date, US_FORMAT);
+        } catch (Exception ignored) {
+        }
+
+        return null;
     }
 }

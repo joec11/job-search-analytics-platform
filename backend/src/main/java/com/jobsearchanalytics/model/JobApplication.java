@@ -40,6 +40,7 @@ public class JobApplication {
     private LocalDate dateApplied;
     private LocalDate statusDate;
 
+    @Column(columnDefinition = "TEXT")
     private String jobUrl;
 
     @Column(length = 2000)

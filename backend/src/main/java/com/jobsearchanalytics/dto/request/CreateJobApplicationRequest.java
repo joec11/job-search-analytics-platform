@@ -19,8 +19,8 @@ public record CreateJobApplicationRequest(
 
         String salaryRange,
 
-        @NotNull JobSource source,
-        @NotNull ApplicationStatus status,
+        JobSource source,
+        ApplicationStatus status,
 
         LocalDate dateApplied,
         LocalDate statusDate,
