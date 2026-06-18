@@ -3,8 +3,8 @@ package com.jobsearchanalytics.service.importer;
 import com.jobsearchanalytics.dto.response.ImportError;
 import com.jobsearchanalytics.dto.response.ImportSummary;
 import com.jobsearchanalytics.model.JobApplication;
+import com.jobsearchanalytics.parser.FileParser;
 import com.jobsearchanalytics.repository.JobApplicationRepository;
-import com.jobsearchanalytics.util.ExcelParser;
 import com.jobsearchanalytics.util.JobApplicationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,13 +18,20 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ImportServiceImpl implements ImportService {
 
-    private final ExcelParser excelParser;
+    private final List<FileParser> parsers;
     private final JobApplicationRepository repository;
 
     @Override
     public ImportSummary importFile(MultipartFile file) {
 
-        List<Map<String, String>> rows = excelParser.parse(file);
+        FileParser parser = parsers.stream()
+                .filter(p -> p.supports(file.getOriginalFilename()))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException(
+                        "Unsupported file type"
+                ));
+
+        List<Map<String, String>> rows = parser.parse(file);
 
         List<JobApplication> validApplications = new ArrayList<>();
         List<ImportError> errors = new ArrayList<>();
@@ -34,27 +41,42 @@ public class ImportServiceImpl implements ImportService {
         for (Map<String, String> row : rows) {
 
             try {
+
                 JobApplication job = JobApplicationMapper.fromRow(row);
 
                 // -------------------------
-                // REQUIRED FIELD VALIDATION
+                // REQUIRED FIELDS
                 // -------------------------
 
-                if (job.getJobTitle() == null || job.getJobTitle().isBlank()) {
-                    errors.add(new ImportError(rowNumber, "jobTitle is required"));
+                if (job.getJobTitle() == null ||
+                        job.getJobTitle().isBlank()) {
+
+                    errors.add(new ImportError(
+                            rowNumber,
+                            "jobTitle is required"
+                    ));
+
                     rowNumber++;
                     continue;
                 }
 
-                if (job.getCompanyName() == null || job.getCompanyName().isBlank()) {
-                    errors.add(new ImportError(rowNumber, "companyName is required"));
+                if (job.getCompanyName() == null ||
+                        job.getCompanyName().isBlank()) {
+
+                    errors.add(new ImportError(
+                            rowNumber,
+                            "companyName is required"
+                    ));
+
                     rowNumber++;
                     continue;
                 }
 
                 validApplications.add(job);
 
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
+
                 errors.add(new ImportError(
                         rowNumber,
                         "Unexpected error: " + e.getMessage()
@@ -63,6 +85,10 @@ public class ImportServiceImpl implements ImportService {
 
             rowNumber++;
         }
+
+        // -------------------------
+        // PERSIST VALID ROWS
+        // -------------------------
 
         repository.saveAll(validApplications);
 
