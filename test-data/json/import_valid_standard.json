@@ -1,0 +1,41 @@
+[
+  {
+    "Job Title": "Test Backend Engineer A",
+    "Company": "TestCorp A",
+    "Location": "New York",
+    "Work Type": "Remote",
+    "Position": "Full-time",
+    "Salary Range": "100K",
+    "Date Applied": "01/01/2026",
+    "Status": "APPLIED",
+    "Status Date": "01/02/2026",
+    "Link": "https://example.com/a",
+    "Source": "LINKEDIN"
+  },
+  {
+    "Job Title": "Test Backend Engineer B",
+    "Company": "TestCorp B",
+    "Location": "California",
+    "Work Type": "On-site",
+    "Position": "Contract",
+    "Salary Range": "120K",
+    "Date Applied": "01/03/2026",
+    "Status": "INTERVIEW",
+    "Status Date": "01/04/2026",
+    "Link": "https://example.com/b",
+    "Source": "INDEED"
+  },
+  {
+    "Job Title": "Test Backend Engineer C",
+    "Company": "TestCorp C",
+    "Location": "Texas",
+    "Work Type": "Hybrid",
+    "Position": "Part-time",
+    "Salary Range": "90K",
+    "Date Applied": "01/05/2026",
+    "Status": "REJECTED",
+    "Status Date": "01/06/2026",
+    "Link": "https://example.com/c",
+    "Source": "COMPANY_SITE"
+  }
+]

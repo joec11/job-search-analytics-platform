@@ -1,0 +1,37 @@
+[
+  {
+    "Job Title": "Test Job D",
+    "Company": "TestCorp D",
+    "Location": "NY",
+    "Work Type": "Remote",
+    "Position": "Full-time",
+    "Salary Range": "100K",
+    "Date Applied": "01/10/2026",
+    "Status": "",
+    "Status Date": "",
+    "Link": "",
+    "Source": ""
+  },
+  {
+    "Job Title": "Test Job E",
+    "Company": "TestCorp E",
+    "Location": "NJ",
+    "Work Type": "On-site",
+    "Position": "Contract",
+    "Salary Range": "110K",
+    "Date Applied": "01/11/2026",
+    "Status": null,
+    "Status Date": null,
+    "Link": null,
+    "Source": null
+  },
+  {
+    "Job Title": "Test Job F",
+    "Company": "TestCorp F",
+    "Location": "TX",
+    "Work Type": "Hybrid",
+    "Position": "Full-time",
+    "Salary Range": "95K",
+    "Date Applied": "01/12/2026"
+  }
+]
