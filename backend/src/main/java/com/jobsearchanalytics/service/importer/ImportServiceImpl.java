@@ -18,20 +18,36 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ImportServiceImpl implements ImportService {
 
+    private static final int MAX_ROWS = 5000;
+
     private final List<FileParser> parsers;
     private final JobApplicationRepository repository;
 
     @Override
     public ImportSummary importFile(MultipartFile file) {
 
+        if (file == null || file.isEmpty()) {
+            throw new RuntimeException("Uploaded file is empty");
+        }
+
         FileParser parser = parsers.stream()
                 .filter(p -> p.supports(file.getOriginalFilename()))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException(
-                        "Unsupported file type"
+                        "Unsupported file type: " + file.getOriginalFilename()
                 ));
 
         List<Map<String, String>> rows = parser.parse(file);
+
+        if (rows == null || rows.isEmpty()) {
+            throw new RuntimeException("No data found in uploaded file");
+        }
+
+        if (rows.size() > MAX_ROWS) {
+            throw new RuntimeException(
+                    "File exceeds maximum allowed rows: " + MAX_ROWS
+            );
+        }
 
         List<JobApplication> validApplications = new ArrayList<>();
         List<ImportError> errors = new ArrayList<>();
@@ -44,18 +60,10 @@ public class ImportServiceImpl implements ImportService {
 
                 JobApplication job = JobApplicationMapper.fromRow(row);
 
-                // -------------------------
-                // REQUIRED FIELDS
-                // -------------------------
-
                 if (job.getJobTitle() == null ||
                         job.getJobTitle().isBlank()) {
 
-                    errors.add(new ImportError(
-                            rowNumber,
-                            "jobTitle is required"
-                    ));
-
+                    errors.add(new ImportError(rowNumber, "jobTitle is required"));
                     rowNumber++;
                     continue;
                 }
@@ -63,20 +71,14 @@ public class ImportServiceImpl implements ImportService {
                 if (job.getCompanyName() == null ||
                         job.getCompanyName().isBlank()) {
 
-                    errors.add(new ImportError(
-                            rowNumber,
-                            "companyName is required"
-                    ));
-
+                    errors.add(new ImportError(rowNumber, "companyName is required"));
                     rowNumber++;
                     continue;
                 }
 
                 validApplications.add(job);
 
-            }
-            catch (Exception e) {
-
+            } catch (Exception e) {
                 errors.add(new ImportError(
                         rowNumber,
                         "Unexpected error: " + e.getMessage()
@@ -85,10 +87,6 @@ public class ImportServiceImpl implements ImportService {
 
             rowNumber++;
         }
-
-        // -------------------------
-        // PERSIST VALID ROWS
-        // -------------------------
 
         repository.saveAll(validApplications);
 
