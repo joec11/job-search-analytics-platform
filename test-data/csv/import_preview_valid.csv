@@ -1,0 +1,5 @@
+jobTitle,companyName,location,workType,position,salaryRange,dateApplied,status,statusDate,link,source
+Software Engineer,AlphaTech,"New York, NY",Remote,Full-time,"$80,000 - $120,000",2026-01-05,APPLIED,,https://example.com/jobs/1,LinkedIn
+Backend Developer,BetaSoft,"Austin, TX",Hybrid,Full-time,"$95,000 - $130,000",2026-01-06,INTERVIEW,2026-01-15,https://example.com/jobs/2,Indeed
+QA Engineer,CloudNova,"Boston, MA",On-site,Contract,"$55/hr - $70/hr",2026-01-07,,,https://example.com/jobs/3,
+Data Analyst,DataWorks,"Chicago, IL",Remote,Part-time,"$65,000 - $85,000",2026-01-08,REJECTED,2026-01-20,https://example.com/jobs/4,Glassdoor

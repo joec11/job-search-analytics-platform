@@ -35,7 +35,7 @@ public class CsvParser implements FileParser {
             List<String> headers = new ArrayList<>();
 
             for (String h : rawHeaders) {
-                headers.add(ColumnMapper.map(h.trim()));
+                headers.add(ColumnMapper.normalize(h.trim()));
             }
 
             List<Map<String, String>> rows = new ArrayList<>();
@@ -52,9 +52,7 @@ public class CsvParser implements FileParser {
 
                 for (int i = 0; i < headers.size(); i++) {
 
-                    String value = i < values.length
-                            ? values[i].trim()
-                            : "";
+                    String value = i < values.length ? values[i].trim() : "";
 
                     row.put(headers.get(i), value);
                 }
@@ -65,10 +63,7 @@ public class CsvParser implements FileParser {
             return rows;
 
         } catch (Exception e) {
-            throw new RuntimeException(
-                    "Failed to parse CSV file: " + e.getMessage(),
-                    e
-            );
+            throw new RuntimeException("Failed to parse CSV file: " + e.getMessage(), e);
         }
     }
 }

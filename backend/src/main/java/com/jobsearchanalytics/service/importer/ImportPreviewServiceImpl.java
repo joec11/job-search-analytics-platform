@@ -7,12 +7,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
-// @Service
-public class ImportServiceImpl implements ImportPreviewService {
+@Service
+public class ImportPreviewServiceImpl implements ImportPreviewService {
 
     private final List<FileParser> parsers;
 
-    public ImportServiceImpl(List<FileParser> parsers) {
+    public ImportPreviewServiceImpl(List<FileParser> parsers) {
         this.parsers = parsers;
     }
 
@@ -73,7 +73,7 @@ public class ImportServiceImpl implements ImportPreviewService {
     }
 
     /**
-     * Strategy pattern: selects correct parser at runtime
+     * Strategy pattern: selects correct parser based on file type
      */
     private FileParser resolveParser(String filename) {
 

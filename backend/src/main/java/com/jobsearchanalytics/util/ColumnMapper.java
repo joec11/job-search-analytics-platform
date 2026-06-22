@@ -1,35 +1,53 @@
 package com.jobsearchanalytics.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ColumnMapper {
 
-    public static String map(String input) {
+    private static final Map<String, String> MAP = new HashMap<>();
 
-        if (input == null) return null;
+    static {
 
-        String normalized = input.trim().toLowerCase();
+        // Core fields
+        MAP.put("jobtitle", "jobTitle");
+        MAP.put("job_title", "jobTitle");
 
-        return switch (normalized) {
+        MAP.put("companyname", "companyName");
+        MAP.put("company_name", "companyName");
 
-            // core identity
-            case "job title", "title" -> "jobTitle";
-            case "company", "company name" -> "companyName";
+        MAP.put("dateapplied", "dateApplied");
+        MAP.put("date_applied", "dateApplied");
 
-            // mapping important for your dataset
-            case "position", "job type", "employment type" -> "employmentType";
+        MAP.put("employmenttype", "employmentType");
+        MAP.put("employment_type", "employmentType");
+        MAP.put("position", "employmentType");
 
-            case "location" -> "location";
-            case "work type" -> "workType";
-            case "salary range" -> "salaryRange";
+        MAP.put("salaryrange", "salaryRange");
+        MAP.put("salary_range", "salaryRange");
 
-            case "date applied" -> "dateApplied";
-            case "status" -> "status";
-            case "status date" -> "statusDate";
+        MAP.put("worktype", "workType");
+        MAP.put("work_type", "workType");
 
-            case "link", "url", "job link" -> "jobUrl";
+        MAP.put("joburl", "jobUrl");
+        MAP.put("job_url", "jobUrl");
+        MAP.put("link", "jobUrl");
 
-            case "source" -> "source";
+        MAP.put("statusdate", "statusDate");
+        MAP.put("status_date", "statusDate");
 
-            default -> normalized;
-        };
+        // passthrough fields
+        MAP.put("location", "location");
+        MAP.put("status", "status");
+        MAP.put("source", "source");
+        MAP.put("industry", "industry");
+        MAP.put("recruiteremail", "recruiterEmail");
+        MAP.put("recruitername", "recruiterName");
+        MAP.put("notes", "notes");
+    }
+
+    public static String normalize(String key) {
+        if (key == null) return null;
+        return MAP.getOrDefault(key.trim().toLowerCase(), key);
     }
 }

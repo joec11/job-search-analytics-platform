@@ -1,27 +1,23 @@
 package com.jobsearchanalytics.controller;
 
-import com.jobsearchanalytics.dto.response.ApiResponse;
-import com.jobsearchanalytics.dto.response.ImportSummary;
-import com.jobsearchanalytics.service.importer.ImportService;
-import lombok.RequiredArgsConstructor;
+import com.jobsearchanalytics.dto.response.ImportPreviewResponse;
+import com.jobsearchanalytics.service.importer.ImportPreviewService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/import")
-@RequiredArgsConstructor
 public class ImportController {
 
-    private final ImportService importService;
+    private final ImportPreviewService importPreviewService;
 
-    @PostMapping
-    public ApiResponse<ImportSummary> importFile(
-            @RequestParam("file") MultipartFile file) {
+    public ImportController(ImportPreviewService importPreviewService) {
+        this.importPreviewService = importPreviewService;
+    }
 
-        return new ApiResponse<>(
-                true,
-                "Import completed",
-                importService.importFile(file)
-        );
+    @PostMapping("/preview")
+    public ResponseEntity<ImportPreviewResponse> preview(@RequestParam("file") MultipartFile file) {
+        return ResponseEntity.ok(importPreviewService.previewFile(file));
     }
 }
