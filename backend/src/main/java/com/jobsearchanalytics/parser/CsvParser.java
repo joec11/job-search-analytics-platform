@@ -1,6 +1,9 @@
 package com.jobsearchanalytics.parser;
 
 import com.jobsearchanalytics.util.ColumnMapper;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,39 +23,48 @@ public class CsvParser implements FileParser {
     @Override
     public List<Map<String, String>> parse(MultipartFile file) {
 
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8)
-        )) {
+        try (
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8)
+                );
+                CSVParser csvParser = CSVFormat.DEFAULT
+                        .builder()
+                        .setHeader()
+                        .setSkipHeaderRecord(true)
+                        .setIgnoreSurroundingSpaces(true)
+                        .setTrim(true)
+                        .build()
+                        .parse(reader)
+        ) {
 
-            String headerLine = reader.readLine();
-
-            if (headerLine == null || headerLine.isBlank()) {
-                throw new RuntimeException("CSV file is empty or missing headers");
-            }
-
-            String[] rawHeaders = headerLine.split(",");
-
-            List<String> headers = new ArrayList<>();
-
-            for (String h : rawHeaders) {
-                headers.add(ColumnMapper.normalize(h.trim()));
-            }
+            List<String> headers = csvParser.getHeaderNames()
+                    .stream()
+                    .map(ColumnMapper::normalize)
+                    .toList();
 
             List<Map<String, String>> rows = new ArrayList<>();
 
-            String line;
+            for (CSVRecord record : csvParser) {
 
-            while ((line = reader.readLine()) != null) {
+                if (record.stream().allMatch(String::isBlank)) {
+                    continue;
+                }
 
-                if (line.isBlank()) continue;
-
-                String[] values = line.split(",", -1);
-
-                Map<String, String> row = new HashMap<>();
+                Map<String, String> row = new LinkedHashMap<>();
 
                 for (int i = 0; i < headers.size(); i++) {
 
-                    String value = i < values.length ? values[i].trim() : "";
+                    String value = "";
+
+                    if (i < record.size()) {
+                        value = record.get(i);
+
+                        if (value != null) {
+                            value = value.trim();
+                        } else {
+                            value = "";
+                        }
+                    }
 
                     row.put(headers.get(i), value);
                 }
