@@ -1,5 +1,5 @@
-jobTitle,companyName,location,workType,position,salaryRange,dateApplied,status,statusDate,link,source
-Software Engineer,AlphaTech,"New York, NY",Remote,Full-time,"$80,000 - $120,000",2026-01-05,APPLIED,,https://example.com/jobs/1,LinkedIn
-,MissingTitleCorp,"Chicago, IL",Remote,Full-time,"$90,000",2026-01-06,,,https://example.com/jobs/2,Indeed
-Backend Developer,,"Austin, TX",Hybrid,Full-time,"$95,000",2026-01-07,,,https://example.com/jobs/3,Glassdoor
-Data Analyst,DataWorks,"Chicago, IL",Remote,Part-time,"$65,000",2026-01-08,,,https://example.com/jobs/4,LinkedIn
+Job Title,Company,Employment Type,Date Applied
+Software Engineer,Google,Full-time,2026-01-10
+,Amazon,Contract,2026-01-12
+Data Analyst,,Full-time,2026-01-15
+Product Manager,Microsoft,Contract,2026-01-20

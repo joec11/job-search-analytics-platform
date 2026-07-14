@@ -1,7 +1,0 @@
-[
-  { "Job Title": "Job A", "Company": "X", "Work Type": "onsite" },
-  { "Job Title": "Job B", "Company": "Y", "Work Type": "on site" },
-  { "Job Title": "Job C", "Company": "Z", "Work Type": "on-site" },
-  { "Job Title": "Job D", "Company": "W", "Work Type": "remote" },
-  { "Job Title": "Job E", "Company": "V", "Work Type": "hybrid" }
-]

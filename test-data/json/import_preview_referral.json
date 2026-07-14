@@ -1,0 +1,27 @@
+[
+  {
+    "Job Title": "Engineer",
+    "Company": "Apple",
+    "Referral": "Yes"
+  },
+  {
+    "Job Title": "Analyst",
+    "Company": "Amazon",
+    "Referral": "No"
+  },
+  {
+    "Job Title": "Manager",
+    "Company": "Microsoft",
+    "Referral": "true"
+  },
+  {
+    "Job Title": "Developer",
+    "Company": "Netflix",
+    "Referral": "false"
+  },
+  {
+    "Job Title": "Designer",
+    "Company": "Adobe",
+    "Referral": "Y"
+  }
+]

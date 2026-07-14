@@ -1,0 +1,20 @@
+[
+  {
+    "Position": "Backend Engineer",
+    "Company Name": "Netflix",
+    "Location": "Los Gatos CA",
+    "Employment Type": "Full-time",
+    "Job Type": "Remote",
+    "URL": "https://jobs.netflix.com/job1",
+    "Applied Date": "01/15/2026"
+  },
+  {
+    "Position": "QA Engineer",
+    "Company Name": "Apple",
+    "Location": "Cupertino CA",
+    "Employment Type": "Contract",
+    "Job Type": "Hybrid",
+    "URL": "https://jobs.apple.com/job2",
+    "Applied Date": "2026-01-20"
+  }
+]

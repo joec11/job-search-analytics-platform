@@ -1,20 +1,26 @@
 [
   {
-    "jobTitle": "Software Engineer",
-    "companyName": "AlphaTech",
-    "location": "New York, NY"
+    "Job Title": "Software Engineer",
+    "Company": "Google",
+    "Employment Type": "Full-time",
+    "Date Applied": "2026-01-10"
   },
   {
-    "jobTitle": "",
-    "companyName": "MissingTitleCorp",
-    "location": "Chicago, IL"
+    "Job Title": "",
+    "Company": "Amazon",
+    "Employment Type": "Contract",
+    "Date Applied": "2026-01-12"
   },
   {
-    "jobTitle": "Backend Developer",
-    "companyName": ""
+    "Job Title": "Data Analyst",
+    "Company": "",
+    "Employment Type": "Full-time",
+    "Date Applied": "2026-01-15"
   },
   {
-    "jobTitle": "Data Analyst",
-    "companyName": "DataWorks"
+    "Job Title": "Product Manager",
+    "Company": "Microsoft",
+    "Employment Type": "Contract",
+    "Date Applied": "2026-01-20"
   }
 ]

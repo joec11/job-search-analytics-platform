@@ -1,0 +1,4 @@
+Job Title,Company,Location,Employment Type,Work Type,Salary,Job URL,Status,Source,Date Applied,Status Date,Notes,Recruiter Name,Recruiter Email,Industry,Referral
+Software Engineer,Google,Mountain View CA,Full-time,Hybrid,120000-140000,https://careers.google.com/job1,Applied,LinkedIn,2026-01-10,2026-01-15,Great fit for backend role,Jane Smith,jane.smith@example.com,Technology,Yes
+Data Analyst,Amazon,Seattle WA,Contract,Remote,80000-95000,https://amazon.jobs/job2,Interview,Company Website,2026-01-12,2026-01-20,Technical interview scheduled,John Doe,john.doe@example.com,E-Commerce,No
+Product Manager,Microsoft,Redmond WA,Full-time,On-site,130000-150000,https://careers.microsoft.com/job3,Offer,Referral,2026-01-18,2026-02-01,Offer received,Amy Lee,amy.lee@example.com,Software,True

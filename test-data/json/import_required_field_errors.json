@@ -1,6 +1,0 @@
-[
-  { "Job Title": "Valid Job 1", "Company": "A" },
-  { "Job Title": "", "Company": "B" },
-  { "Job Title": "Valid Job 2", "Company": "C" },
-  { "Company": "D" }
-]

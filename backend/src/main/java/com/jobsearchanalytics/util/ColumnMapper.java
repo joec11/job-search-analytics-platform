@@ -3,51 +3,116 @@ package com.jobsearchanalytics.util;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ColumnMapper {
+public final class ColumnMapper {
+
+    private ColumnMapper() {
+        // Utility class
+    }
 
     private static final Map<String, String> MAP = new HashMap<>();
 
     static {
 
-        // Core fields
+        // -------------------------
+        // Job Title
+        // -------------------------
         MAP.put("jobtitle", "jobTitle");
-        MAP.put("job_title", "jobTitle");
+        MAP.put("title", "jobTitle");
+        MAP.put("position", "jobTitle");
 
+        // -------------------------
+        // Company
+        // -------------------------
+        MAP.put("company", "companyName");
         MAP.put("companyname", "companyName");
-        MAP.put("company_name", "companyName");
+        MAP.put("employer", "companyName");
 
+        // -------------------------
+        // Location
+        // -------------------------
+        MAP.put("location", "location");
+
+        // -------------------------
+        // Date Applied
+        // -------------------------
         MAP.put("dateapplied", "dateApplied");
-        MAP.put("date_applied", "dateApplied");
+        MAP.put("applieddate", "dateApplied");
+        MAP.put("applydate", "dateApplied");
 
+        // -------------------------
+        // Employment Type
+        // -------------------------
         MAP.put("employmenttype", "employmentType");
-        MAP.put("employment_type", "employmentType");
-        MAP.put("position", "employmentType");
+        MAP.put("jobtype", "employmentType");
+        MAP.put("employment", "employmentType");
 
+        // -------------------------
+        // Salary
+        // -------------------------
+        MAP.put("salary", "salaryRange");
         MAP.put("salaryrange", "salaryRange");
-        MAP.put("salary_range", "salaryRange");
 
+        // -------------------------
+        // Work Type
+        // -------------------------
         MAP.put("worktype", "workType");
-        MAP.put("work_type", "workType");
+        MAP.put("remotetype", "workType");
 
+        // -------------------------
+        // Job URL
+        // -------------------------
         MAP.put("joburl", "jobUrl");
-        MAP.put("job_url", "jobUrl");
+        MAP.put("url", "jobUrl");
+        MAP.put("website", "jobUrl");
         MAP.put("link", "jobUrl");
 
-        MAP.put("statusdate", "statusDate");
-        MAP.put("status_date", "statusDate");
-
-        // passthrough fields
-        MAP.put("location", "location");
+        // -------------------------
+        // Status
+        // -------------------------
         MAP.put("status", "status");
+        MAP.put("statusdate", "statusDate");
+
+        // -------------------------
+        // Source
+        // -------------------------
         MAP.put("source", "source");
+
+        // -------------------------
+        // Industry
+        // -------------------------
         MAP.put("industry", "industry");
-        MAP.put("recruiteremail", "recruiterEmail");
+
+        // -------------------------
+        // Recruiter
+        // -------------------------
         MAP.put("recruitername", "recruiterName");
+        MAP.put("recruiteremail", "recruiterEmail");
+
+        // -------------------------
+        // Notes
+        // -------------------------
         MAP.put("notes", "notes");
+
+        // -------------------------
+        // Referral
+        // -------------------------
+        MAP.put("referral", "referral");
     }
 
     public static String normalize(String key) {
-        if (key == null) return null;
-        return MAP.getOrDefault(key.trim().toLowerCase(), key);
+
+        if (key == null) {
+            return null;
+        }
+
+        String normalized = key
+                .trim()
+                .toLowerCase()
+                .replace(" ", "")
+                .replace("_", "")
+                .replace("-", "")
+                .replace(".", "");
+
+        return MAP.getOrDefault(normalized, key.trim());
     }
 }

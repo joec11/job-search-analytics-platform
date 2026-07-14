@@ -1,14 +1,20 @@
 [
   {
-    "jobTitle": "",
-    "companyName": ""
+    "Job Title": "",
+    "Company": "Google",
+    "Location": "Mountain View CA",
+    "Employment Type": "Full-time"
   },
   {
-    "jobTitle": "",
-    "companyName": ""
+    "Job Title": "Software Engineer",
+    "Company": "",
+    "Location": "Remote",
+    "Employment Type": "Contract"
   },
   {
-    "jobTitle": "",
-    "companyName": ""
+    "Job Title": "Data Analyst",
+    "Company": "Amazon",
+    "Location": "Seattle",
+    "Employment Type": "Full-time"
   }
 ]
